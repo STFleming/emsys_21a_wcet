@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <script src="https://d3js.org/d3.v4.min.js"></script>
+                <script src="histo.js"></script>
+                <script src="colourScheme.js"></script>
+        </head>
+
+        <body>
+        <script>
+                // the colour scheme
+                let colour = new colourScheme("dark");
+
+
+                var margin = {top: 0, right: 0, bottom: 0, left: 0},
+                    width = 2000 - margin.left - margin.right,
+                    height = 3500 - margin.top - margin.bottom;
+
+                // the main svg canvas
+                var svg = d3.select("body").append("svg")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g").attr("transform", 
+                                    "translate(" + margin.left + "," + margin.top + ")");
+
+                // the background rect
+                svg.append("rect")
+                   .attr("x", 0)
+                   .attr("y", 0)
+                   .attr("width", width + margin.left + margin.right)
+                   .attr("height", height + margin.top + margin.bottom)
+                   .attr("fill", colour.env);
+
+                var socket = new WebSocket("ws://192.168.0.102:1235");
+
+                // The histograms
+                var PYNQ_hgram = new histo(svg, colour, 256, 150.0, 300.0, 20, 100, "PYNQ"); 
+                var ESP32_hgram = new histo(svg, colour, 256, 580.0, 630.0, 20, 500, "ESP32"); 
+
+                // receive a histogram item
+                var PYNQ_redraw_count = 0;
+                var ESP32_redraw_count = 0;
+                socket.onmessage = function(event) {
+                        //console.log(event.data);
+                        var msg = JSON.parse(event.data);
+                        
+                        switch(msg.id) {
+                                case "PYNQ":
+                                        PYNQ_hgram.addItem(msg.val);
+                                        PYNQ_redraw_count = PYNQ_redraw_count + 1;
+                                        if(PYNQ_redraw_count > 150) {
+                                                PYNQ_hgram.draw();
+                                                PYNQ_redraw_count = 0;
+                                        }
+                                break;
+
+                                case "ESP32":
+                                        // the value here is a counter operating at 40MHz
+                                        var adjusted_secs = msg.val * (1/40000000);
+                                        var adjusted_usec = adjusted_secs * 1000000;
+                                        ESP32_hgram.addItem(adjusted_usec);
+
+                                        //ESP32_hgram.addItem(msg.val);
+
+                                        ESP32_redraw_count = ESP32_redraw_count + 1;
+                                        if(ESP32_redraw_count > 150) {
+                                                ESP32_hgram.draw();
+                                                ESP32_redraw_count = 0;
+                                        }
+                                break;
+                        }
+                }
+                
+        </script>
+        </body>
+</html>
+
