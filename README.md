@@ -256,7 +256,7 @@ Of course, if the attacker does have access to the PYNQ device, they can serious
 
 # Hardware Timers and Interrupts
 
-[[mini video lecture](https://youtu.be/OHArGGwXDtI)]
+[[mini video lecture](https://youtu.be/OHArGGwXDtI)] __This video is from last semester and refers to a lab 2 which is not applicable for this semester and can be ignored.__ 
 
 _page 123 of [[Making Embedded Systems](https://github.com/phuongtdv/PhuongTDVTesting/raw/master/Making.Embedded.Systems.pdf)] provides an excellent overview of interrupts_
 
@@ -380,16 +380,15 @@ Finally, interrupts can have priority over other interrupts, where a nested inte
 
 # Hardware Timers
 
-Unfortunately, we can't be in the lab to generate interrupts with the GPIO pins. However, we can still explore interrupts and generate them internally with the hardware timers in the ESP32.
+In the previous lecture and in the labs we have looked in depth at hardware timers. The ESP32 has a number of timer peripherals, each of which can generate an interrupt.
 
-The ESP32 has four 64-bit timers that we can use to time operations or periodically generate interrupts. **Timer0 is reserved for the Let32-ESP tracebuffer module**; however, Timers1-3 are free to use.
-
-Each timer peripheral looks like the following:
+Each timer peripheral on the ESP32 looks like the following:
 ![](imgs/timer_hw.svg)
 
 The timer hardware is essentially composed of two components. A 16-bit prescaler divides the input clock, and a 64-bit counter counts every clock cycle of the prescaled clock. The timer also accepts an alarm input, a 64-bit value that triggers an interrupt when the counter hits the alarm value. The counter is configured to either stop after an alarm has triggered or reloaded back to zero.
 
-Luckily for us, there are some Arduino functions that we can use to configure the timer.
+In the labs, you have been writing memory-mapped IO to configure the timer.
+However, there are some Arduino functions that we can use to configure the timer.
 
 First, create a pointer to the hardware timer.
 
@@ -462,6 +461,8 @@ The ``timerAlarmEnable()`` just takes one argument, the pointer to the ``hw_time
 
 
 And that's it. If configured correctly, our ISR will now be periodically executing every second.
+
+Let's see this all put together with a complete example:
 
 
 ## Real-Time Operating Systems (RTOS)
