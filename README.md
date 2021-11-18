@@ -407,7 +407,7 @@ timer = timerBegin(1, 80, true);
 
 The ``timerBegin()`` function for initialising the timer takes three arguments:
 
-1.The number of the timer 0-3 **(Remember timer 0 is reserved as it is in use by the Let-ESP32 library)** 
+1.The number of the timer 0-3  
 2. The amount the input clock is divided by. In the above example, we have 80, which means that we are dividing the 80MHz input clock down to a 1MHz clock making our counter increment every 1us.
 3. Whether the counter counts up or down. In the above example, we have set this to ``true``, meaning we count up. 
 
