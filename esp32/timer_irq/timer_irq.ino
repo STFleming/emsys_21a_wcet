@@ -19,6 +19,6 @@ void setup() {
 }
 
 void loop() {
-        delay(5000);
+        delay(500);
         Serial.println(count);
 }
