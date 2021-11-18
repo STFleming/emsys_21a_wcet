@@ -216,7 +216,7 @@ The results from the ESP32 are noticeably different from the PYNQ results. Here,
 
 Notably,  for the ESP32, the tail latency (99.99% point) is quite tight with the rest of the latencies, meaning that in the worst-case, the execution time is not much worse than the average case. 
 
-However, we do see that overall the ESP32 is considerably slower than the PYNQ. This slower speed makes sense. The PYNQs ARM CPU operates much faster; it runs at 240MHz instead of 800MHz. The ARM CPU is also a bigger, more complex processor with bigger caches. 
+However, we do see that overall the ESP32 is considerably slower than the PYNQ. This slower speed makes sense. The PYNQs ARM CPU operates much faster; it runs at 800MHz instead of 240MHz. The ARM CPU is also a bigger, more complex processor with bigger caches. 
 
 Remember I said that the PYNQ latencies went off the chart. Let's zoom out to find out just how far they go.
 
