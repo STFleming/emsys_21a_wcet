@@ -1,4 +1,4 @@
-# EmSys: Worst Case Execution Time (WCET) and Real-Time Operating Systems (RTOS)
+# EmSys: Time in Embedded Systems 
 
 Imagine you've been asked to design an embedded systems for an aircraft, car, or a medical device.
 These are embedded-systems where the operation of the device must be precise and correct.
